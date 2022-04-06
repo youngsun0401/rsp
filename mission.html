@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5 시작</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@700&display=swap');
+
+body {
+	background-color: lightgrey;
+	font-size: 20px;
+}
+input , button {
+	font-size: 20px;
+	min-width: 10px;
+}
+h1 {
+	text-align: center;
+	font-size: 60px;
+	font-family: 'Dongle', sans-serif;
+	animation-name: rainbowColor;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+@keyframes rainbowColor {
+	0% {color: red; transform: rotateY(90deg);}
+	17% {color: yellow}
+	33% {color: green}
+	50% {color: cyan; transform: rotateY(0deg);}
+	67% {color: blue}
+	83% {color: Fuchsia}
+	100% {color: red; transform: rotateY(90deg);}
+}
+
+#loginDiv {
+	width: 500px;
+	margin: auto;
+	padding: 50px;
+	background-color: white;
+	box-shadow: grey 0px 0px 8px;
+}
+
+#loginForm {
+	display: grid;
+	grid-template-columns: 400px auto;
+}
+#loginTable {
+	display: table;
+	table-layout: fixed;
+}
+#loginTable > div {
+	display: table-row;
+}
+#loginTable > div > * {
+	display: table-cell;
+}
+#loginTable label {
+	width: 100px;
+}
+#loginTable input {
+	width: auto;
+}
+.shake {
+	animation-name: shake;
+	animation-duration: 0.2s;
+	animation-iteration-count: infinite;
+}
+@keyframes shake {
+	0% {transform: rotate(2deg);}
+	25% {transform: rotate(-6deg);}
+	50% {transform: rotate(0deg);}
+	75% {transform: rotate(4deg);}
+	100% {transform: rotate(0deg);}
+}
+
+#loginMsg {
+	margin-top: 15px;
+	color: red;
+}
+
+
+</style>
+</head>
+<body>
+
+<h1>또! 로그인</h1>
+<div id="loginDiv">
+	<form id="loginForm">
+		<div id="loginTable">
+			<div>
+				<label>아이디</label>
+				<input id="idInp" type="text" placeholder="아이디 입력" onfocus="document.getElementById('loginMsg').innerText = '';">
+			</div>
+			<div>
+				<label>비밀번호</label>
+				<input id="pwdInp" type="password" placeholder="비밀번호 입력" onfocus="document.getElementById('loginMsg').innerText = '';">
+			</div>
+		</div>
+		<button type="button" onclick="func1()">버튼</button>
+	</form>
+	<div id="loginMsg"></div>
+</div>
+
+<script>
+//// 로그인
+function func1(){
+	if( document.getElementById('idInp').value == 'admin'
+		&& document.getElementById('pwdInp').value == '1234' ){
+		location.href = 'rsp.html';
+	}else{
+		document.getElementById('loginMsg').innerText = '아이디 또는 비밀번호가 틀립니다.';
+		//// 흔들기 애니메이션
+		document.querySelector('#loginForm button').classList.add('shake');
+		setTimeout(function(){
+			document.querySelector('#loginForm button').classList.remove('shake');
+		}, 200);
+	}
+}
+
+</script>
+</body>
+</html>

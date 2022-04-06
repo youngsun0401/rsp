@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5 시작</title>
+<style>
+body {
+	background-color: lightgrey;
+	max-width: 1000px;
+	margin: auto;
+	font-size: 20px;
+}
+body > * {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+h1 {
+	text-align: center;
+}
+#stage {
+	border: 1px solid black;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	padding: 10px;
+}
+.player {
+	background-color: white;
+}
+#me {order: 1;}
+#com {order: 3;}
+#gameMsg {order: 2;}
+
+#pad {
+	display: flex;
+	width: 500px;
+	margin-right: auto; margin-left: auto;
+	justify-content: space-evenly;
+}
+#pad button {
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	font-size: 30px;
+}
+
+#history {
+	margin-right: auto; margin-left: auto;
+	text-align: center;
+}
+#history span {
+	color: red;
+	font-size: 200%;
+}
+
+.player img {
+	transition: transform 0.2s;
+}
+
+</style>
+</head>
+<body>
+<h1>가위바위보</h1>
+<p style="text-align: center;">화면의 버튼을 누르거나 키보드 숫자 123을 눌러 가위바위보를 합니다.</p>
+
+<div id="stage">
+	<div id="me" class="player">
+		<h1>나</h1>
+		<img src="보.jpg" alt="가위바위보 이미지">
+	</div>
+	<div id="com" class="player">
+		<h1>컴퓨터</h1>
+		<img src="보.jpg" alt="가위바위보 이미지">
+	</div>
+	<div id="gameMsg">가위 바위 보!</div>
+</div>
+
+<div id="pad">
+	<button onclick="play(1);">가위</button>
+	<button onclick="play(2);">바위</button>
+	<button onclick="play(0);">보</button>
+</div>
+
+<table id="history">
+	<tr><td><span id="win">0</span>번 이김</td></tr>
+	<tr><td><span id="draw">0</span>번 비김</td></tr>
+	<tr><td><span id="lose">0</span>번 짐</td></tr>
+</table>
+
+<script>
+//// 전적 기록 변수
+win = 0;
+draw = 0;
+lose = 0;
+
+//// 키보드 123 눌러도 가위바위보 하기
+document.addEventListener("keypress", keyplay, false);
+function keyplay( e ){
+	if( e.charCode === 49 ) play(1);// 1 키
+	if( e.charCode === 50 ) play(2);// 2 키
+	if( e.charCode === 51 ) play(0);// 3 키
+}
+
+function play( me ){
+	//// 내 이미지 바꾸기
+	meImg = document.querySelector('#me > img');
+	if( me == 1 ){
+		meImg.setAttribute('src','가위.jpg');
+		meImg.setAttribute('alt','가위');
+	}
+	if( me == 2 ){
+		meImg.setAttribute('src','바위.jpg');
+		meImg.setAttribute('alt','바위');
+	}
+	if( me == 0 ){
+		meImg.setAttribute('src','보.jpg');
+		meImg.setAttribute('alt','보');
+	}
+	//// 컴퓨터가 내고 이미지 바꾸기
+	var com = Math.floor(Math.random()*3);// 0,1,2 무작위
+	comImg = document.querySelector('#com > img')
+	if( com == 1 ){
+		comImg.setAttribute('src','가위.jpg');
+		comImg.setAttribute('alt','가위');
+	}
+	if( com == 2 ){
+		comImg.setAttribute('src','바위.jpg');
+		comImg.setAttribute('alt','바위');
+	}
+	if( com == 0 ){
+		comImg.setAttribute('src','보.jpg');
+		comImg.setAttribute('alt','보');
+	}
+	
+	//// 승패 판정
+	//// 이미지 확대축소, 결과 메시지 출력, 전적 기록
+	if( me == (com+1) % 3 ){// 이기는 관계: 1<2<0<1
+		meImg.style.transform = 'scale(1)';
+		comImg.style.transform = 'scale(0.5)';
+		document.getElementById('gameMsg').innerText = '이겼습니다.';
+		document.getElementById('win').innerText = ++win;
+	}else if( me == com ){// 비김
+		meImg.style.transform = 'scale(0.8)';
+		comImg.style.transform = 'scale(0.8)';
+		document.getElementById('gameMsg').innerText = '비겼습니다.';
+		document.getElementById('draw').innerText = ++draw;
+	}else{// 짐
+		meImg.style.transform = 'scale(0.5)';
+		comImg.style.transform = 'scale(1)';
+		document.getElementById('gameMsg').innerText = '조졌습니다.';
+		document.getElementById('lose').innerText = ++lose;
+	}
+	
+}
+</script>
+
+</body>
+</html>
